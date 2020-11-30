@@ -13,3 +13,5 @@ php artisan key:Generate
 # migrate
 
 php artisan migrate:refresh --seed
+
+php artisan passport:install
