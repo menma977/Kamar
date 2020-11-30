@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\RoomController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,5 +21,12 @@ Route::get('logout', [UserController::class, 'logout']);
 Route::middleware('auth:api')->group(function () {
   Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
     Route::get('show', [UserController::class, 'show']);
+  });
+
+  Route::group(['prefix' => 'room', 'as' => 'room.'], function () {
+    Route::get('{room?}', [RoomController::class, 'index']);
+    Route::post("rent", [RoomController::class, 'rent']);
+    Route::post("store", [RoomController::class, 'store']);
+    Route::post('delete', [RoomController::class, 'delete']);
   });
 });

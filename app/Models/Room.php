@@ -13,8 +13,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer price
  * @property boolean is_bond
  * @property boolean is_man
+ * @property string renter
  * @property string join
- * @property string end
  * @property integer item
  * @property integer location
  */
@@ -30,10 +30,11 @@ class Room extends Model
   protected $fillable = [
     'name',
     'price',
+    'image',
     'is_bond',
     'is_man',
+    'renter',
     'join',
-    'end',
     'item',
     'location',
   ];
