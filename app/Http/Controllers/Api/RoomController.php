@@ -12,10 +12,12 @@ class RoomController extends Controller
 {
   /**
    * @param Request $request
+   * @param bool $isUpdate
+   * @param string $id
    * @return JsonResponse
    * @throws ValidationException
    */
-  public function store(Request $request)
+  public function store(Request $request, $isUpdate = false, $id = "")
   {
     $this->validate($request, [
       'name' => 'required|string',
@@ -24,7 +26,12 @@ class RoomController extends Controller
       'location' => 'required|numeric|exists:locations,id'
     ]);
 
-    $room = new Room();
+    if ($isUpdate && $id) {
+      $room = Room::find($id);
+    } else {
+      $room = new Room();
+    }
+
     $room->location = $request->location;
     $room->name = $request->name;
     $room->price = $request->price;
