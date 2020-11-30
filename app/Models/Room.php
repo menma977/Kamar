@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string join
  * @property string end
  * @property integer item
+ * @property integer location
  */
 class Room extends Model
 {
@@ -33,5 +34,10 @@ class Room extends Model
     'join',
     'end',
     'item',
+    'location',
   ];
+
+  public function location() {
+    return $this->belongsTo(Location::class, 'id');
+  }
 }
