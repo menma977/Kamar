@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 
-use App\Models\Room;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -34,11 +34,9 @@ class UserController extends Controller
         $user->token = $user->createToken('Android')->accessToken;
         return response()->json([
           'token' => $user->token,
-          'wallet' => $user->wallet,
-          'account_cookie' => $user->account_cookie,
-          'phone' => $user->phone,
-          'username' => $user->username_doge,
-          'password' => $user->password_doge
+          'role' => $user->role,
+          'name' => $user->name,
+          'username' => $user->location()
         ], 200);
       }
     } catch (Exception $e) {
@@ -53,6 +51,9 @@ class UserController extends Controller
     return response()->json($data, 500);
   }
 
+  /**
+   * @return JsonResponse
+   */
   public function logout()
   {
     $token = Auth::user()->tokens;
@@ -64,14 +65,53 @@ class UserController extends Controller
     ], 200);
   }
 
+  /**
+   * @return JsonResponse
+   */
   public function show()
   {
     $user = Auth::user();
-    $room = Room::where('location', $user->location)->get();
 
     return response()->json([
-      'user' => $user,
-      'room' => $room
+      'role' => $user->role,
+      'name' => $user->name,
+      'username' => $user->location()
+    ], 200);
+  }
+
+  /**
+   * @param Request $request
+   * @return JsonResponse
+   * @throws ValidationException
+   */
+  public function update(Request $request)
+  {
+    $user = User::find(Auth::id());
+    if ($request->name) {
+      $this->validate($request, [
+        'name' => 'required|string',
+      ]);
+      $user->name = $request->name;
+    }
+
+    if ($request->name) {
+      $this->validate($request, [
+        'role' => 'required|numeric',
+      ]);
+      $user->role = $request->role;
+    }
+
+    if ($request->location) {
+      $this->validate($request, [
+        'location' => 'required|numeric|exists:locations,id',
+      ]);
+      $user->location = $request->location;
+    }
+
+    $user->save();
+
+    return response()->json([
+      'response' => 'Successfully update',
     ], 200);
   }
 }
