@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 
+use App\Models\Room;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -60,6 +61,17 @@ class UserController extends Controller
     }
     return response()->json([
       'response' => 'Successfully logged out',
+    ], 200);
+  }
+
+  public function show()
+  {
+    $user = Auth::user();
+    $room = Room::where('location', $user->location)->get();
+
+    return response()->json([
+      'user' => $user,
+      'room' => $room
     ], 200);
   }
 }

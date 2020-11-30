@@ -19,7 +19,7 @@ class CreateRoomsTable extends Migration
       $table->integer("price")->index();
       $table->boolean("is_bond")->default(false);
       $table->boolean("is_man")->default(true);
-      $table->date("join");
+      $table->date("join")->nullable();
       $table->date("end")->nullable();
       $table->integer("item")->default(0);
       $table->timestamps();

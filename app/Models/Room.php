@@ -10,8 +10,9 @@ use Illuminate\Database\Eloquent\Model;
  * @package App\Models
  * @property integer id
  * @property string name
+ * @property integer price
  * @property boolean is_bond
- * @property boolean man
+ * @property boolean is_man
  * @property string join
  * @property string end
  * @property integer item
@@ -30,14 +31,21 @@ class Room extends Model
     'name',
     'price',
     'is_bond',
-    'man',
+    'is_man',
     'join',
     'end',
     'item',
     'location',
   ];
 
-  public function location() {
+  protected $hidden = [
+    'id',
+    'created_at',
+    'updated_at'
+  ];
+
+  public function location()
+  {
     return $this->belongsTo(Location::class, 'id');
   }
 }
