@@ -75,7 +75,7 @@ class UserController extends Controller
     return response()->json([
       'role' => $user->role,
       'name' => $user->name,
-      'username' => $user->location()
+      'location' => $user->Location
     ], 200);
   }
 
