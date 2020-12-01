@@ -45,7 +45,7 @@ class Room extends Model
     'updated_at'
   ];
 
-  public function location()
+  public function Location()
   {
     return $this->belongsTo(Location::class, 'id');
   }

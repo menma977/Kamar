@@ -21,7 +21,7 @@ class User extends Authenticatable
 {
   use HasFactory, Notifiable, HasApiTokens;
 
-  protected $with = ['location'];
+  protected $with = ['Location'];
 
   /**
    * The attributes that are mass assignable.
@@ -55,7 +55,7 @@ class User extends Authenticatable
     'email_verified_at' => 'datetime',
   ];
 
-  public function location()
+  public function Location()
   {
     return $this->hasOne(Location::class, "id");
   }

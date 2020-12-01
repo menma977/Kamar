@@ -21,14 +21,25 @@ class Location extends Model
    * @var array
    */
   protected $fillable = [
+    'id',
     'address',
   ];
 
-  public function user() {
+  /**
+   * The attributes that should be hidden for arrays.
+   *
+   * @var array
+   */
+  protected $hidden = [
+    'created_at',
+    'updated_at',
+  ];
+
+  public function User() {
     return $this->belongsTo(User::class, "location");
   }
 
-  public function room() {
+  public function Room() {
     return $this->belongsTo(Room::class, "location");
   }
 }

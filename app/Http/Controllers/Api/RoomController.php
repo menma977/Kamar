@@ -12,7 +12,11 @@ use Illuminate\Validation\ValidationException;
 
 class RoomController extends Controller
 {
-
+  /**
+   * @param Request $request
+   * @param string $name
+   * @return JsonResponse
+   */
   public function index(Request $request, $name = "")
   {
     $request->validate([
@@ -26,7 +30,7 @@ class RoomController extends Controller
     $rooms = Room::where('name', 'like', '%' . $name . '%');
     if ($request->booked) {
       $rooms = $request->booked == "true" ?
-        $rooms->whereNotNull('join'):
+        $rooms->whereNotNull('join') :
         $rooms->whereNull('join');
     }
     if ($request->gender) {
@@ -51,6 +55,10 @@ class RoomController extends Controller
     ], 200);
   }
 
+  /**
+   * @param Request $request
+   * @return JsonResponse
+   */
   public function rent(Request $request)
   {
     $request->validate([
@@ -68,6 +76,10 @@ class RoomController extends Controller
     ]);
   }
 
+  /**
+   * @param Request $request
+   * @return JsonResponse
+   */
   public function delete(Request $request)
   {
     $request->validate([
