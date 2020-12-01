@@ -29,4 +29,10 @@ Route::middleware('auth:api')->group(function () {
     Route::post("store", [RoomController::class, 'store']);
     Route::post('delete', [RoomController::class, 'delete']);
   });
+
+  Route::group(['prefix' => 'location', 'as' => 'location' ], function () {
+      Route::get('show',[LocationController::class,'show']);
+      Route::post('store',[LocationController::class,'store']);
+  });
+
 });

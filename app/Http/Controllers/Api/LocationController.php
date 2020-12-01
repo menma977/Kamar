@@ -18,7 +18,7 @@ class LocationController extends Controller
    * @return JsonResponse
    * @throws ValidationException
    */
-  public function store(Request $request, $isUpdate = false, $id = "")
+  public function store(Request $request, $id = "")
   {
     if (Auth::user()->role == 2) {
       return response()->json([
@@ -30,7 +30,7 @@ class LocationController extends Controller
       'address' => 'required|string'
     ]);
 
-    if ($isUpdate && $id) {
+    if ($id) {
       $location = Location::find($id);
     } else {
       $location = new Location();
@@ -59,4 +59,6 @@ class LocationController extends Controller
       'data' => $location,
     ], 200);
   }
+
+
 }
