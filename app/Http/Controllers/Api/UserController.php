@@ -94,7 +94,7 @@ class UserController extends Controller
       $user->name = $request->name;
     }
 
-    if ($request->name) {
+    if ($request->role) {
       $this->validate($request, [
         'role' => 'required|numeric',
       ]);
