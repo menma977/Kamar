@@ -29,20 +29,16 @@ class RoomController extends Controller
     ]);
     $rooms = Room::where('name', 'like', '%' . $name . '%');
     if ($request->booked) {
-      $rooms = $request->booked == "true" ?
-        $rooms->whereNotNull('join') :
-        $rooms->whereNull('join');
+      $rooms = $request->booked == "true" ? $rooms->whereNotNull('join') : $rooms->whereNull('join');
     }
     if ($request->gender) {
-      $rooms = $request->gender == 'M' ?
-        $rooms->where("is_man", true) :
-        $rooms->where("is_man", false);
+      $rooms = $request->gender == 'M' ? $rooms->where("is_man", true) : $rooms->where("is_man", false);
     }
     if ($request->location) {
       $rooms = $rooms->where("location", $request->location);
     }
     if ($request->renter) {
-      $rooms = $rooms->where("renter", "LIKE", '%' . $request->penyewa . '%');
+      $rooms = $rooms->where("renter", "LIKE", '%' . $request->renter . '%');
     }
     if ($request->price_lt) {
       $rooms = $rooms->where("price", "<=", $request->price_lt);
