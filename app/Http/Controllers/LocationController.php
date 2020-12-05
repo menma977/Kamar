@@ -39,9 +39,32 @@ class LocationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$id = null)
     {
-        //
+        $isUpdate = false;
+        if($id){
+          $location = Location::find($id);
+          if ($request->address) {
+            $this->validate($request,[
+              'address' => 'required|string'
+            ]);
+            $location->address = $request->address;
+          }
+          $location->save();
+        }else {
+          $isUpdate = true;
+          $location = new Location();
+          $this->validate($request,[
+            'address' => 'required|string'
+          ]);
+          $location->save();
+        }
+
+        if ($isUpdate) {
+          return redirect()->back()->withInput(["message"=> "Location has been updated"]);
+        }
+
+        return redirect()->back()->withInput(["message"=> "Location has been added"]);
     }
 
     /**
