@@ -11,7 +11,7 @@
         <img src="{{ Auth::user()->image ? asset("storage/avatar/".Auth::user()->username) : asset('user.png') }}" class="img-circle elevation-2" alt="User Image">
       </div>
       <div class="info">
-        <a href="{{ route('users.profile.index', \Illuminate\Support\Facades\Auth::user()->username) }}" class="d-block text-wrap">{{ \Illuminate\Support\Facades\Auth::user()->username }}</a>
+        <a href="#" class="d-block text-wrap">{{ \Illuminate\Support\Facades\Auth::user()->username }}</a>
       </div>
     </div>
 
@@ -22,6 +22,14 @@
             <i class="nav-icon fa fa-home"></i>
             <p>
               Home
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ route('user.index') }}" class="nav-link {{ request()->is(['user', 'user/*']) ? 'active' : '' }}">
+            <i class="nav-icon fa fa-home"></i>
+            <p>
+              User
             </p>
           </a>
         </li>

@@ -57,6 +57,6 @@ class User extends Authenticatable
 
   public function Location()
   {
-    return $this->hasOne(Location::class, "id");
+    return $this->hasOne(Location::class, "id", "location");
   }
 }

@@ -36,7 +36,7 @@ class Location extends Model
   ];
 
   public function User() {
-    return $this->belongsTo(User::class, "location");
+    return $this->hasMany(User::class, "location");
   }
 
   public function Room() {
