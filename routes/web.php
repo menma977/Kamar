@@ -30,10 +30,11 @@ Route::middleware('auth')->group(function () {
   Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
     Route::get('', [UserController::class, 'index'])->name('index');
     Route::post('store/{id?}', [UserController::class, 'store'])->name('store');
+    Route::get('{id}/delete', [UserController::class, 'delete'])->name('delete');
   });
 
   Route::group(['prefix' => 'location', 'as' => 'location.'], function () {
-    Route::get('',[LocationController::class,'index'])->name('index');
-    Route::post('store/{id?}',[LocationController::class,'store'])->name('store');
+    Route::get('', [LocationController::class, 'index'])->name('index');
+    Route::post('store/{id?}', [LocationController::class, 'store'])->name('store');
   });
 });

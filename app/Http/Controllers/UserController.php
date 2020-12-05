@@ -82,4 +82,11 @@ class UserController extends Controller
 
     return redirect()->back()->withInput(["message" => "User has been add"]);
   }
+
+  public function delete($id)
+  {
+    User::destroy($id);
+    
+    return redirect()->back()->withInput(["message" => "User has been delete"]);
+  }
 }
