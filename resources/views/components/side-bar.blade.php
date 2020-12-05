@@ -35,6 +35,15 @@
         </li>
 
         <li class="nav-item">
+          <a href="{{ route('location.index') }}" class="nav-link {{ request()->is(['location', 'location/*']) ? 'active' : '' }}">
+            <i class="nav-icon fa fa-home"></i>
+            <p>
+              Location
+            </p>
+          </a>
+        </li>
+
+        <li class="nav-item">
           <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="nav-link">
             <i class="nav-icon fas fa-power-off"></i>
             <p>
