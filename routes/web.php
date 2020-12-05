@@ -29,6 +29,7 @@ Route::middleware('auth')->group(function () {
 
   Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
     Route::get('', [UserController::class, 'index'])->name('index');
+    Route::post('store/{id?}', [UserController::class, 'store'])->name('store');
   });
 
   Route::group(['prefix' => 'location', 'as' => 'location.'], function () {
