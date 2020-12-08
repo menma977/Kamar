@@ -99,12 +99,14 @@
                   <div class="float-right" id="is_man-{{ $item->id }}">{{ $item->is_man ? "Male": "Female" }}</div>
                 </li>
                 <li class="nav-item">
-                  Status<span class="float-right" id="is_bond-{{ $item->id }}">
+                  Status
+                  <button type="button" id="is_bond-{{ $item->id }}" class="btn btn-default float-right btn-xs" data-toggle="modal" data-target="#modal-default">
                     @if ($item->is_bond)
                       Booked
                     @else
                       Available
-                    @endif</span>
+                    @endif
+                  </button>
                 </li>
               </ul>
             </div>
@@ -127,6 +129,26 @@
         </div>
       @endforeach
     </div>
+  </div>
+  <div class="modal fade" id="modal-default" style="display: none;">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title float-left">Rent</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span></button>
+        </div>
+        <div class="modal-body">
+          <p>Enter renter name</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" >Save changes</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
   </div>
 @endsection
 
