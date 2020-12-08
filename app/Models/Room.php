@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 /**
  * Class Room
@@ -20,7 +21,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Room extends Model
 {
-  use HasFactory;
+  use HasFactory,Notifiable;
+
+  protected $with = ['Location'];
 
   /**
    * The attributes that are mass assignable.
@@ -36,7 +39,7 @@ class Room extends Model
     'renter',
     'join',
     'item',
-    'location',
+    'location'
   ];
 
   protected $hidden = [
@@ -47,6 +50,6 @@ class Room extends Model
 
   public function Location()
   {
-    return $this->belongsTo(Location::class, 'id');
+    return $this->hasOne(Location::class, 'id','location');
   }
 }

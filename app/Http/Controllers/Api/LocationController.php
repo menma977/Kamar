@@ -60,5 +60,17 @@ class LocationController extends Controller
     ], 200);
   }
 
-
+  public function delete(Request $request)
+  {
+    $request->validate([
+      "location" => "required|string"
+    ]);
+    $location = Location::find($request->location);
+    $location->address = NULL;
+    $location->save();
+    return response()->json([
+      "response" => $location->address."This location has been deleted",
+      "data" => $location
+    ]);
+  }
 }

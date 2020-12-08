@@ -44,6 +44,15 @@
         </li>
 
         <li class="nav-item">
+          <a href="{{ route('room.index') }}" class="nav-link {{ request()->is(['room', 'room/*']) ? 'active' : '' }}">
+            <i class="nav-icon fa fa-home"></i>
+            <p>
+              Room
+            </p>
+          </a>
+        </li>
+
+        <li class="nav-item">
           <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="nav-link">
             <i class="nav-icon fas fa-power-off"></i>
             <p>

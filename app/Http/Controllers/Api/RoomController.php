@@ -22,7 +22,7 @@ class RoomController extends Controller
     $request->validate([
       "booked" => "nullable|string",
       "gender" => "nullable|string",
-      "location" => "nullable|string",
+      "location" => "nullable|string|exists:locations,id",
       "renter" => "nullable|string",
       "price_lt" => "nullable|numeric",
       "price_gt" => "nullable|numeric"

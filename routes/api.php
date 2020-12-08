@@ -25,8 +25,8 @@ Route::middleware('auth:api')->group(function () {
   });
   Route::group(['prefix' => 'room', 'as' => 'room.'], function () {
     Route::get('{room?}', [RoomController::class, 'index']);
-    Route::post("rent", [RoomController::class, 'rent']);
-    Route::post("store", [RoomController::class, 'store']);
+    Route::post('rent', [RoomController::class, 'rent']);
+    Route::post('store', [RoomController::class, 'store']);
     Route::post('delete', [RoomController::class, 'delete']);
   });
 

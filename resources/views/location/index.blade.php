@@ -60,7 +60,9 @@
                   <button type="button" class="btn btn-block btn-warning btn-xs edit" id="{{$item->id}}">Edit</button>
                 </div>
                 <div class="col-md-3">
+                <a href="{{route('location.delete',$item->id)}}">
                   <button type="button" class="btn btn-block btn-danger btn-xs">Delete</button>
+                </a>
                 </div>
               </div>
             </td>

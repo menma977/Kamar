@@ -3,6 +3,7 @@
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\RoomController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,5 +37,11 @@ Route::middleware('auth')->group(function () {
   Route::group(['prefix' => 'location', 'as' => 'location.'], function () {
     Route::get('', [LocationController::class, 'index'])->name('index');
     Route::post('store/{id?}', [LocationController::class, 'store'])->name('store');
+  });
+
+  Route::group(['prefix' => 'room', 'as' => 'room.'], function () {
+    Route::get('', [RoomController::class, 'index'])->name('index');
+    Route::post('store/{id?}', [RoomController::class, 'store'])->name('store');
+    Route::get('{id}/delete', [RoomController::class, 'delete'])->name('delete');
   });
 });
