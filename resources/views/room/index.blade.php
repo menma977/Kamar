@@ -45,29 +45,23 @@
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label for="_is_bond">Status</label>
-                    
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-2">
-                  <div class="form-group">
-                    <span>Gender</span>
-                    <div class="custom-control custom-radio">
-                      <input class="custom-control-input" type="radio" id="_is_manTrue" name="is_man" checked="" value="1">
-                      <label for="_is_manTrue" class="custom-control-label">Male</label>
-                    </div>
-                    <div class="custom-control custom-radio">
-                      <input class="custom-control-input" type="radio" id="_is_manFalse" name="is_man" value="0">
-                      <label for="_is_manFalse" class="custom-control-label">Female</label>
+                    <label for="_price">Price</label>
+                    <br/>
+                    <div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
+                      <label id="male" class="btn btn-outline-danger active">
+                        <input type="radio" name="is_man" autocomplete="off" value="1"> MALE
+                      </label>
+                      <label id="female" class="btn btn-outline-warning">
+                        <input type="radio" name="is_man" autocomplete="off" value="0"> FEMALE
+                      </label>
                     </div>
                   </div>
+
                 </div>
               </div>
               <div class="form-group">
                 <label for="_location">Location</label>
-                <select class="form-control @error('location') is-invalid @enderror" id="_location" name="location" value{{old('address')}}>
+                <select class="form-control @error('location') is-invalid @enderror" id="_location" name="location" value="{{ old('address') }}">
                   @foreach($location as $item)
                     <option value="{{ $item->id }}">{{ $item->address }}</option>
                   @endforeach
@@ -101,19 +95,15 @@
                   </li>
                 @endif
                 <li class="nav-item">
-                  Gender <span class="float-right" id="is_man-{{ $item->id }} ">
-                    @if ($item->is_man)
-                    Male
-                  @else
-                    Female
-                  @endif</span>
+                  Gender
+                  <div class="float-right" id="is_man-{{ $item->id }}">{{ $item->is_man ? "Male": "Female" }}</div>
                 </li>
                 <li class="nav-item">
                   Status<span class="float-right" id="is_bond-{{ $item->id }}">
                     @if ($item->is_bond)
-                    Booked
+                      Booked
                     @else
-                    Available
+                      Available
                     @endif</span>
                 </li>
               </ul>
@@ -154,7 +144,14 @@
         $("#_name").val(name);
         $("#_price").val(price);
         $("#_location").val(location);
-        $("#_is_man").val(is_man);
+        console.log(is_man);
+        if (is_man === "Male") {
+          $("#male").addClass('active');
+          $("#female").removeClass('active');
+        } else {
+          $("#male").removeClass('active');
+          $("#female").addClass('active');
+        }
         $("#_is_bond").val(is_bond);
         $('#form').attr('action', url);
         if ($('#card').hasClass('collapsed-card')) {

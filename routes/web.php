@@ -37,6 +37,7 @@ Route::middleware('auth')->group(function () {
   Route::group(['prefix' => 'location', 'as' => 'location.'], function () {
     Route::get('', [LocationController::class, 'index'])->name('index');
     Route::post('store/{id?}', [LocationController::class, 'store'])->name('store');
+    Route::get('delete/{id}', [LocationController::class, 'delete'])->name('delete');
   });
 
   Route::group(['prefix' => 'room', 'as' => 'room.'], function () {
