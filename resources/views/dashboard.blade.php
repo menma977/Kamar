@@ -217,7 +217,7 @@
         datasets: data
       }
 
-      var barChartCanvas = $('#historyBarChart').get(0).getContext('2d')
+      var historyarChartCanvas = $('#historyBarChart').get(0).getContext('2d')
       var historyBarChartData = $.extend(true, {}, historyBarChartData)
 
       var barChartOptions = {
@@ -225,15 +225,6 @@
         maintainAspectRatio     : true,
         datasetFill             : false,
         scales: {
-          xAxes: [{
-            type: 'time',
-            time: {
-              displayFormats: {
-                quarter: 'MMM',
-                unit: 'month'
-              }
-            }
-          }],
           yAxes: [{
             ticks: {
                 min: 0,
@@ -244,7 +235,7 @@
       }
       console.log(historyBarChartData);
       setTimeout(function(){
-        var barChart = new Chart(barChartCanvas, {
+        var barChart = new Chart(historyBarChartCanvas, {
           type: 'bar',
           data: historyBarChartData,
           options: barChartOptions
