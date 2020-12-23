@@ -186,9 +186,11 @@
         return e.address
       });
       const history = @json($history);
+      console.log(history);
 
       const data = new Array();
       const dataTes = new Array();
+      const label = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
       var dynamicColors = function() {
             var r = Math.floor(Math.random() * 255);
@@ -196,28 +198,38 @@
             var b = Math.floor(Math.random() * 255);
             return "rgb(" + r + "," + g + "," + b + ")";
          };
+      const ind = [];
+      for (let index = 0; index < label.length; index++){
 
-      for (const prop in history){
-        const dataLoc =[];
-
-        Object.keys(history[prop]).forEach(function(key) {
-          dataTes.push(history[prop][key]);
+        const d = [];
+        Object.keys(history[label[index]]).forEach(function(i,key) {
+          i = [key];
+          ind.push(i);
+          try {
+            data.push({
+              label               : i,
+              backgroundColor     : dynamicColors,
+              data                : [key],
+            });
+          } catch (error) {
+            data.push({
+              label               : i,
+              backgroundColor     : dynamicColors,
+              data                : [0],
+            });
+          }
         });
 
-        data.push({
-          label               : 'x',
-          backgroundColor     : '#fff',
-          data                : dataTes,
-        });
-
+        console.log(ind);
+        console.log(d);
       }
 
       var historyBarChartData = {
-        labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+        label : label,
         datasets: data
       }
 
-      var historyarChartCanvas = $('#historyBarChart').get(0).getContext('2d')
+      var historyBarChartCanvas = $('#historyBarChart').get(0).getContext('2d')
       var historyBarChartData = $.extend(true, {}, historyBarChartData)
 
       var barChartOptions = {
@@ -234,13 +246,11 @@
         }
       }
       console.log(historyBarChartData);
-      setTimeout(function(){
         var barChart = new Chart(historyBarChartCanvas, {
           type: 'bar',
           data: historyBarChartData,
           options: barChartOptions
         });
-      },5000);
 
     });
   </script>

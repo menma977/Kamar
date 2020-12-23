@@ -43,6 +43,17 @@ class HomeController extends Controller
     //bar chart end
 
     //booked room history bar chart
+
+    $historyLoc = [];
+    $label = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    foreach ($label as $key => $value) {
+      $data = [];
+      foreach($location as $index => $item){
+        $data[$item->address] = 0;
+      }
+      $historyLoc[$value] = $data;
+    }
+      $q = [];
       $history = History::orderBy('join','asc')
       ->whereIn('location',$locationId)
       ->get()
@@ -62,6 +73,16 @@ class HomeController extends Controller
         }
         return $h;
       });
+      foreach ($history as $key => $value) {
+        $z = [];
+        foreach ($value as $k => $v) {
+          array_push($z,$k);
+          array_push($q[$k],$v);
+        }
+        $historyLoc[$key] = $value;
+      }
+      dd($q);
+      dd($historyLoc);
     //booked room history bar chart end
 
     $data = [
@@ -72,7 +93,7 @@ class HomeController extends Controller
       "roomsBooked" => $roomsBooked,
       "roomsAvailable" => $roomsAvailable,
       "locationCount" => $locationCount,
-      "history" => $history,
+      "history" => $historyLoc,
     ];
 
     return view("dashboard", $data);
