@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Location;
 use App\Models\Room;
+use App\Models\History;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Carbon;
 
 class RoomController extends Controller
 {
@@ -118,6 +120,48 @@ class RoomController extends Controller
     return redirect()->back()->withInput(["message" => "Room has been add"]);
   }
 
+  /**
+   * @param Request $request
+   * @return JsonResponse
+   */
+  public function rent(Request $request)
+  {
+    $request->validate([
+      "room" => "required|exists:rooms,id",
+      "renter" => "required|string",
+      "item" => "nullable|numeric"
+    ]);
+    $room = Room::find($request->room);
+    $room->renter = $request->renter;
+    $room->is_bond = true;
+    $room->item = $request->item;
+    $room->join = Carbon::now();
+    $room->end = Carbon::now()->addMonth(1);
+
+    $history = new History();
+    $history->roomId = $request->room;
+    $history->location = $room->location;
+    $history->join = $room->join;
+    $history->end = $room->end;
+    $history->save();
+    $room->save();
+
+    return redirect()->back()->withInput(["message" => "Renter has been added"]);
+  }
+
+  public function deleteRenter($id)
+  {
+    $room = Room::find($id);
+    $renter = $room->renter;
+    $room->renter = NULL;
+    $room->is_bond = false;
+    $room->join = NULL;
+    $room->end = NULL;
+    $room->item = 0;
+    $room->save();
+
+    return redirect()->back()->withInput(["message" => "Renter has been added"]);
+  }
 
   public function delete($id)
   {

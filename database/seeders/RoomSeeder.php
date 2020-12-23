@@ -15,7 +15,7 @@ class RoomSeeder extends Seeder
    */
   public function run()
   {
-    $location = Location::all()->first();
+    $location = Location::first();
 
     $room = new Room();
     $room->location = $location->id;

@@ -20,6 +20,14 @@ class UserSeeder extends Seeder
     $location->address = "awww";
     $location->save();
 
+    $location = new Location();
+    $location->address = "qeeee";
+    $location->save();
+
+    $location = new Location();
+    $location->address = "wrrrr";
+    $location->save();
+
     $user = new User();
     $user->role = 1;
     $user->name = "ADMIN";

@@ -16,6 +16,7 @@ use Illuminate\Notifications\Notifiable;
  * @property boolean is_man
  * @property string renter
  * @property string join
+ * @property string end
  * @property integer item
  * @property integer location
  */
@@ -38,18 +39,21 @@ class Room extends Model
     'is_man',
     'renter',
     'join',
+    'end',
     'item',
-    'location'
+    'location',
   ];
 
   protected $hidden = [
     'id',
     'created_at',
-    'updated_at'
+    'updated_at',
+
   ];
 
   public function Location()
   {
     return $this->hasOne(Location::class, 'id','location');
   }
+
 }

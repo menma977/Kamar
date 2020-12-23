@@ -15,6 +15,7 @@
 @endsection
 
 @section('content')
+<div class="container-fluid">
   <div class="row">
     <div class="col-md-12">
       <form id="form" action="{{route('location.store')}}" method="POST">
@@ -72,6 +73,7 @@
       </table>
     </div>
   </div>
+</div>
 @endsection
 
 

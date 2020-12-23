@@ -21,6 +21,7 @@ class CreateRoomsTable extends Migration
       $table->boolean("is_man")->default(true);
       $table->text("renter")->nullable();
       $table->date("join")->nullable();
+      $table->date("end")->nullable();
       $table->integer("item")->default(0);
       $table->bigInteger("location");
       $table->timestamps();

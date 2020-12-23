@@ -26,6 +26,7 @@ require __DIR__ . '/auth.php';
 Route::middleware('auth')->group(function () {
   Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
     Route::get('', [HomeController::class, 'index'])->name('index');
+    Route::get('chart',[HomeController::class,'chart'])->name('chart');
   });
 
   Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
@@ -44,5 +45,7 @@ Route::middleware('auth')->group(function () {
     Route::get('', [RoomController::class, 'index'])->name('index');
     Route::post('store/{id?}', [RoomController::class, 'store'])->name('store');
     Route::get('{id}/delete', [RoomController::class, 'delete'])->name('delete');
+    Route::post('rent/{id}',[RoomController::class,'rent'])->name('rent');
+    Route::get('deleteRenter/{id}', [RoomController::class,'deleteRenter'])->name('deleteRenter');
   });
 });
