@@ -126,7 +126,7 @@
 @section('addJs')
   <script src="{{asset('assets/plugins/chart.js/Chart.min.js')}}"></script>
   <script src="{{asset('assets/dist/js/adminlte.min.js')}}"></script>
-  <script src="{{asset('asset/cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js')}}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 
   <script>
     $(function (){
@@ -153,10 +153,6 @@
 
       var barChartCanvas = $('#barChart').get(0).getContext('2d')
       var barChartData = $.extend(true, {}, barChartData)
-      var temp0 = barChartData.datasets[0]
-      var temp1 = barChartData.datasets[1]
-      barChartData.datasets[0] = temp1
-      barChartData.datasets[1] = temp0
 
       var barChartOptions = {
         responsive              : false,
@@ -201,14 +197,15 @@
 
       for (const prop in history){
         const dataLoc =[];
+        console.log(history[prop]);
 
-        console.log([prop]);
         Object.keys(history[prop]).forEach(function(key) {
           dataTes.push(history[prop][key]);
           console.log(history[prop]);
           console.log(history[prop][key]);
         });
 
+        console.log(dataTes);
         data.push({
           label               : 'x',
           backgroundColor     : '#fff',
