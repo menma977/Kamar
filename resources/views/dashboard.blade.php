@@ -153,6 +153,10 @@
 
       var barChartCanvas = $('#barChart').get(0).getContext('2d')
       var barChartData = $.extend(true, {}, barChartData)
+      var temp0 = barChartData.datasets[0]
+      var temp1 = barChartData.datasets[1]
+      barChartData.datasets[0] = temp1
+      barChartData.datasets[1] = temp0
 
       var barChartOptions = {
         responsive              : false,
@@ -181,9 +185,7 @@
       var labels = @json($location).map(function(e){
         return e.address
       });
-      console.log(labels);
       const history = @json($history);
-      console.log(history);
 
       const data = new Array();
       const dataTes = new Array();
@@ -197,15 +199,11 @@
 
       for (const prop in history){
         const dataLoc =[];
-        console.log(history[prop]);
 
         Object.keys(history[prop]).forEach(function(key) {
           dataTes.push(history[prop][key]);
-          console.log(history[prop]);
-          console.log(history[prop][key]);
         });
 
-        console.log(dataTes);
         data.push({
           label               : 'x',
           backgroundColor     : '#fff',
@@ -213,7 +211,6 @@
         });
 
       }
-      console.log(data);
 
       var historyBarChartData = {
         labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
@@ -222,10 +219,6 @@
 
       var barChartCanvas = $('#historyBarChart').get(0).getContext('2d')
       var historyBarChartData = $.extend(true, {}, historyBarChartData)
-      var temp0 = historyBarChartData.datasets[0]
-      var temp1 = historyBarChartData.datasets[1]
-      historyBarChartData.datasets[0] = temp1
-      historyBarChartData.datasets[1] = temp0
 
       var barChartOptions = {
         responsive              : false,
