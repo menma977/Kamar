@@ -126,6 +126,7 @@
 @section('addJs')
   <script src="{{asset('assets/plugins/chart.js/Chart.min.js')}}"></script>
   <script src="{{asset('assets/dist/js/adminlte.min.js')}}"></script>
+  <script src="{{asset('asset/cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js')}}"></script>
 
   <script>
     $(function (){
