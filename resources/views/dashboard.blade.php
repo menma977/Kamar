@@ -154,24 +154,22 @@
       var barChartCanvas = $('#barChart').get(0).getContext('2d')
       var barChartData = $.extend(true, {}, barChartData)
 
-      var barChartOptions = {
-        responsive              : false,
-        maintainAspectRatio     : true,
-        datasetFill             : false,
-        scales: {
-          yAxes: [{
-              ticks: {
-                min: 0,
-                stepSize: 1
-              }
-          }]
-        }
-      }
-
       var barChart = new Chart(barChartCanvas, {
         type: 'bar',
         data: barChartData,
-        options: barChartOptions
+        options: {
+          responsive              : false,
+          maintainAspectRatio     : true,
+          datasetFill             : false,
+          scales: {
+            yAxes: [{
+                ticks: {
+                  min: 0,
+                  stepSize: 1
+                }
+            }]
+          }
+      }
       })
     })
   </script>
