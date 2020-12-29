@@ -91,7 +91,7 @@
       </div>
       <div class="card-body">
         <div class="chart col-md-12">
-          <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; weight:100%;"></canvas>
+          <canvas id="barChart" style="min-height: 250px; height: 250px; width:100%; max-height: 250px; weight:100%;"></canvas>
         </div>
       </div>
       <!-- /.card-body -->
@@ -113,7 +113,7 @@
       </div>
       <div class="card-body">
         <div class="chart col-md-12">
-          <canvas id="historyBarChart" style="min-height: 250px; height: 250px; max-height: 250px; weight:100%;"></canvas>
+          <canvas id="historyBarChart" style="min-height: 250px; height: 250px; width:100%; max-height: 250px; weight:100%;"></canvas>
         </div>
       </div>
       <!-- /.card-body -->
@@ -139,37 +139,33 @@
         labels  : labels,
         datasets: [
         {
-          label               : 'Booked Rooms',
-          backgroundColor     : 'red',
-          data                : @json($bookedRooms)
-        },
-        {
           label               : 'All Rooms',
           backgroundColor     : 'green',
-          data                : @json($allRooms)
+          data                : @json($allRooms),
         },
+        {
+          label               : 'Booked Rooms',
+          backgroundColor     : 'red',
+          data                : @json($bookedRooms),
+        }
       ]
       }
 
       var barChartCanvas = $('#barChart').get(0).getContext('2d')
       var barChartData = $.extend(true, {}, barChartData)
-      var temp0 = barChartData.datasets[0]
-      var temp1 = barChartData.datasets[1]
-      barChartData.datasets[0] = temp1
-      barChartData.datasets[1] = temp0
 
       var barChartOptions = {
         responsive              : false,
         maintainAspectRatio     : true,
         datasetFill             : false,
         scales: {
-        yAxes: [{
-            ticks: {
+          yAxes: [{
+              ticks: {
                 min: 0,
                 stepSize: 1
-            }
-        }]
-    }
+              }
+          }]
+        }
       }
 
       var barChart = new Chart(barChartCanvas, {
@@ -182,76 +178,62 @@
 
   <script>
     $(function (){
-      var labels = @json($location).map(function(e){
-        return e.address
-      });
       const history = @json($history);
-      console.log(history);
-
       const data = new Array();
-      const dataTes = new Array();
       const label = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-      var dynamicColors = function() {
-            var r = Math.floor(Math.random() * 255);
-            var g = Math.floor(Math.random() * 255);
-            var b = Math.floor(Math.random() * 255);
-            return "rgb(" + r + "," + g + "," + b + ")";
-         };
-      const ind = [];
-      for (let index = 0; index < label.length; index++){
+      for (var id in history){
+        var valueDataset = [];
+        //Generate random color
+        var r = Math.floor(Math.random() * 255);
+        var g = Math.floor(Math.random() * 255);
+        var b = Math.floor(Math.random() * 255);
+        var color = "rgb(" + r + "," + g + "," + b + ")";
 
-        const d = [];
-        Object.keys(history[label[index]]).forEach(function(i,key) {
-          i = [key];
-          ind.push(i);
-          try {
-            data.push({
-              label               : i,
-              backgroundColor     : dynamicColors,
-              data                : [key],
-            });
-          } catch (error) {
-            data.push({
-              label               : i,
-              backgroundColor     : dynamicColors,
-              data                : [0],
-            });
-          }
-        });
+        for(var d in history[id]){
+          valueDataset.push(history[id][d]);
+        }
 
-        console.log(ind);
-        console.log(d);
+        try {
+          data.push({
+            label               : id,
+            backgroundColor     : color,
+            data                : valueDataset,
+          });
+        } catch (error) {
+          data.push({
+            label               : i,
+            backgroundColor     : color,
+            data                : [0],
+          });
+        }
       }
 
       var historyBarChartData = {
-        label : label,
-        datasets: data
+        labels : label,
+        datasets: data,
       }
 
       var historyBarChartCanvas = $('#historyBarChart').get(0).getContext('2d')
       var historyBarChartData = $.extend(true, {}, historyBarChartData)
 
-      var barChartOptions = {
-        responsive              : false,
-        maintainAspectRatio     : true,
-        datasetFill             : false,
-        scales: {
-          yAxes: [{
-            ticks: {
-                min: 0,
-                stepSize: 1
-            }
-          }]
-        }
+      var barChart = new Chart(historyBarChartCanvas, {
+        type: 'bar',
+        data: historyBarChartData,
+        options : {
+          responsive              : false,
+          maintainAspectRatio     : true,
+          datasetFill             : false,
+          scales: {
+            yAxes: [{
+              ticks: {
+                  min: 0,
+                  stepSize: 1
+              }
+            }]
+          }
       }
-      console.log(historyBarChartData);
-        var barChart = new Chart(historyBarChartCanvas, {
-          type: 'bar',
-          data: historyBarChartData,
-          options: barChartOptions
-        });
-
+      });
     });
   </script>
 @endSection

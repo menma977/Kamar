@@ -7,6 +7,8 @@ use App\Models\Location;
 use App\Models\Room;
 use App\Models\History;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -43,46 +45,21 @@ class HomeController extends Controller
     //bar chart end
 
     //booked room history bar chart
-
-    $historyLoc = [];
-    $label = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    foreach ($label as $key => $value) {
-      $data = [];
-      foreach($location as $index => $item){
-        $data[$item->address] = 0;
-      }
-      $historyLoc[$value] = $data;
-    }
-      $q = [];
-      $history = History::orderBy('join','asc')
-      ->whereIn('location',$locationId)
-      ->get()
-      ->groupBy(function ($item){
-        return Carbon::parse($item->join)->format("M");
-
-      })
-      ->map(function ($item){
-        $h = [];
-        foreach (Location::all()->pluck('address') as $key => $value) {
-          $h[$value]=0;
-        }
-
-        foreach ($item as $key => $subItem) {
-          $findLocation = Location::find($subItem->location);
-          $h[$findLocation->address]+=1;
-        }
-        return $h;
+    $history = History::whereYear('join',Carbon::now())
+    ->get()
+    ->groupBy('location')
+    ->map(function($item,$index){
+      $m = [1=>0,2=>0,3=>0,4=>0,5=>0,6=>0,7=>0,8=>0,9=>0,10=>0,11=>0,12=>0];
+      $item->loc = Location::find($index)->address;
+      $item->i = $item->groupBy(function($item){
+        return (int)Carbon::parse($item->join)->format('m');
       });
-      foreach ($history as $key => $value) {
-        $z = [];
-        foreach ($value as $k => $v) {
-          array_push($z,$k);
-          array_push($q[$k],$v);
-        }
-        $historyLoc[$key] = $value;
+      foreach ($item->i as $key => $value) {
+        $m[$key] = $value->count();
       }
-      dd($q);
-      dd($historyLoc);
+      $item->i = $m;
+      return $item;
+    })->pluck('i','loc');
     //booked room history bar chart end
 
     $data = [
@@ -93,7 +70,7 @@ class HomeController extends Controller
       "roomsBooked" => $roomsBooked,
       "roomsAvailable" => $roomsAvailable,
       "locationCount" => $locationCount,
-      "history" => $historyLoc,
+      "history" => $history,
     ];
 
     return view("dashboard", $data);
