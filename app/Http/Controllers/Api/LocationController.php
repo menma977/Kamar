@@ -65,12 +65,11 @@ class LocationController extends Controller
     $request->validate([
       "location" => "required|string"
     ]);
-    $location = Location::find($request->location);
-    $location->address = NULL;
-    $location->save();
+
+    $location = Location::where('address',$request->location)->delete();
+
     return response()->json([
-      "response" => $location->address."This location has been deleted",
-      "data" => $location
+      "response" => $request->location." has been deleted"
     ]);
   }
 }

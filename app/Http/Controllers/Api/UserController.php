@@ -40,7 +40,7 @@ class UserController extends Controller
         ], 200);
       }
     } catch (Exception $e) {
-      Log::error($e->getMessage() . " - " . $e->getFile() . " - " . $e->getLine());
+      Log::error($e->getMessage() . " ---- " . $e->getFile() . " - " . $e->getLine());
     }
     $data = [
       'message' => 'The given data was invalid.',
@@ -48,7 +48,7 @@ class UserController extends Controller
         'validation' => ['Invalid username or password.'],
       ],
     ];
-    return response()->json($data, 500);
+    return response()->json($data,500) ;
   }
 
   /**
@@ -56,9 +56,8 @@ class UserController extends Controller
    */
   public function logout()
   {
-    $token = Auth::user()->tokens;
-    foreach ($token as $key => $value) {
-      $value->delete();
+    if(Auth::check()){
+      Auth::user()->AuthAccessToken()->delete();
     }
     return response()->json([
       'response' => 'Successfully logged out',
@@ -70,12 +69,10 @@ class UserController extends Controller
    */
   public function show()
   {
-    $user = Auth::user();
+   $user = Auth::user();
 
     return response()->json([
-      'role' => $user->role,
-      'name' => $user->name,
-      'location' => $user->Location
+      'data'=> $user
     ], 200);
   }
 

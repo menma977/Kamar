@@ -59,4 +59,8 @@ class User extends Authenticatable
   {
     return $this->hasOne(Location::class, "id", "location");
   }
+  
+  public function AauthAcessToken(){
+    return $this->hasMany('\App\OauthAccessToken');
+}
 }

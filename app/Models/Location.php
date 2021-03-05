@@ -22,7 +22,7 @@ class Location extends Model
    */
   protected $fillable = [
     'id',
-    'address',
+    'address'
   ];
 
   /**

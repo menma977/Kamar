@@ -60,7 +60,13 @@ class HomeController extends Controller
       $item->i = $m;
       return $item;
     })->pluck('i','loc');
-    //booked room history bar chart end
+
+
+    //Rent due is near and renter has not paid
+    $rentDue = Room::where('is_bond',true)
+    ->where('payment',false)
+    ->whereBetween('end',[Carbon::now(),Carbon::now()->addDays(5)->toDateString()])
+    ->get();
 
     $data = [
       "location" => $location,
@@ -71,6 +77,7 @@ class HomeController extends Controller
       "roomsAvailable" => $roomsAvailable,
       "locationCount" => $locationCount,
       "history" => $history,
+      "rentDue" => $rentDue
     ];
 
     return view("dashboard", $data);

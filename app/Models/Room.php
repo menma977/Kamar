@@ -42,6 +42,7 @@ class Room extends Model
     'end',
     'item',
     'location',
+    'payment'
   ];
 
   protected $hidden = [

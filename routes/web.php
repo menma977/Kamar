@@ -26,7 +26,6 @@ require __DIR__ . '/auth.php';
 Route::middleware('auth')->group(function () {
   Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
     Route::get('', [HomeController::class, 'index'])->name('index');
-    Route::get('chart',[HomeController::class,'chart'])->name('chart');
   });
 
   Route::group(['prefix' => 'user', 'as' => 'user.'], function () {

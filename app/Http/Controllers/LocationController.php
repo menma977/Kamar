@@ -65,6 +65,7 @@ class LocationController extends Controller
       $this->validate($request, [
         'address' => 'required|string'
       ]);
+      $location->address = $request->input('address');
       $location->save();
     }
 

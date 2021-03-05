@@ -18,7 +18,7 @@ class RoomController extends Controller
   /**
    * @return Application|Factory|View
    */
-  public function index()
+  public function index(Request $request, $name = "")
   {
     $rooms = Room::all();
     $location = Location::all();
@@ -129,24 +129,60 @@ class RoomController extends Controller
     $request->validate([
       "room" => "required|exists:rooms,id",
       "renter" => "required|string",
+      "payment" => "nullable|boolean",
       "item" => "nullable|numeric"
     ]);
-    $room = Room::find($request->room);
-    $room->renter = $request->renter;
-    $room->is_bond = true;
-    $room->item = $request->item;
-    $room->join = Carbon::now();
-    $room->end = Carbon::now()->addMonth(1);
 
-    $history = new History();
-    $history->roomId = $request->room;
-    $history->location = $room->location;
-    $history->join = $room->join;
-    $history->end = $room->end;
-    $history->save();
-    $room->save();
+    switch($request->input("action")){
+      case 'extend':
+        $room = Room::find($request->room);
+        $room->renter = $request->renter;
+        $room->is_bond = true;
+        $room->payment = $request->input("payment");
+        $room->item = $request->item;
+        $room->end = Carbon::now()->addMonth(1);
 
-    return redirect()->back()->withInput(["message" => "Renter has been added"]);
+        $history = new History();
+        $history->roomId = $request->room;
+        $history->location = $room->location;
+        $history->join = $room->join;
+        $history->end = $room->end;
+        $history->save();
+        $room->save();
+
+        return redirect()->back()->withInput(["message" => "Rent has been extended"]);
+        break;
+
+      case 'add':
+        $room = Room::find($request->room);
+        $room->renter = $request->renter;
+        $room->is_bond = true;
+        $room->payment = $request->input("payment");
+        $room->item = $request->item;
+        $room->join = Carbon::now();
+        $room->end = Carbon::now()->addMonth(1);
+
+        $history = new History();
+        $history->roomId = $request->room;
+        $history->location = $room->location;
+        $history->join = $room->join;
+        $history->end = $room->end;
+        $history->save();
+        $room->save();
+
+        return redirect()->back()->withInput(["message" => "Renter has been added"]);
+        break;
+
+      case 'edit':
+        $room = Room::find($request->room);
+        $room->renter = $request->input("renter");
+        $room->payment = $request->input("payment");
+        $room->item = $request->input("item");
+        $room->save();
+
+        return redirect()->back()->withInput(["message" => "Rent detail has been updated"]);
+        break;
+    }
   }
 
   public function deleteRenter($id)
@@ -161,6 +197,14 @@ class RoomController extends Controller
     $room->save();
 
     return redirect()->back()->withInput(["message" => "Renter has been added"]);
+  }
+
+  public function payment($id){
+    $room = Room::find($id);
+    $room->payment = true;
+    $room->save();
+
+    return redirect()->back()->withInput(["message" => "Renter has paid the fee"]);
   }
 
   public function delete($id)

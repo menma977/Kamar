@@ -45,7 +45,7 @@
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label for="_price">Price</label>
+                    <label for="is_man">Gender</label>
                     <br/>
                     <div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
                       <label id="male" class="btn btn-outline-danger active">
@@ -105,6 +105,32 @@
                   <li class="nav-item">
                     Item<span class="float-right" id="item-{{$item->id}}">{{ number_format($item->item, 2, ',', '.') }}</span>
                   </li>
+                  <li class="nav-item" id="item-{{$item->id}}">
+                    Payment
+                    <span class="float-right" id="item-{{$item->id}}">
+                      @if ($item->payment)
+                      <a>Paid</a>
+                      @else
+                      <a>Not Paid</a>
+                      @endif
+                    </span>
+                  </li>
+                @else
+                  <li class="nav-item">
+                    Renter<span class="float-right">-</span>
+                  </li>
+                  <li class="nav-item">
+                    Join Date<span class="float-right">-</span>
+                  </li>
+                  <li class="nav-item">
+                    End Date<span class="float-right">-</span>
+                  </li>
+                  <li class="nav-item">
+                    Item<span class="float-right">-</span>
+                  </li>
+                  <li class="nav-item" id="item-{{$item->id}}">
+                    Payment <span class="float-right" id="item-{{$item->id}}">-</span>
+                  </li>
                 @endif
                 <li class="nav-item">
                   Total Price<span class="float-right" id="item-{{$item->id}}">{{ number_format($item->item+$item->price, 2, ',', '.') }}</span>
@@ -144,22 +170,48 @@
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h4 class="modal-title float-left">Edit Rent</h4>
+                  <h4 class="modal-title float-left">
+                    @if ($item->is_bond)
+                    Edit Rent
+                    @else
+                    Add Rent
+                    @endif
+                  </h4>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
                   <span class="float-Left" id="name-{{ $item->id }}">Room: {{ $item->name }}</span>
-                  <input type="text" value="{{old('renter')}}" placeholder="Enter renter name" id="_renter" name="renter" class="form-control" />
+                  <input type="text" value="{{old('renter',$item->renter)}}" placeholder="Enter renter name" id="_renter" name="renter" class="form-control"/>
                   <input type="hidden" id="room" name="room" value="{{$item->id}}" />
                   <br />
-                  <input type="text" value="{{old('item')}}" placeholder="Enter item price" id="item" name="item" class="form-control" />
+                  <input type="text" value="{{old('item',$item->item)}}" placeholder="Enter item price" id="item" name="item" class="form-control" />
+                  <br />
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="payment">Payment Status</label>
+                      <br/>
+                      <div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
+                        <label id="not-paid" class="btn btn-outline-danger active">
+                          <input type="radio" name="payment" @if(old('payment',$item->payment) == false) checked @endif autocomplete="off" value="0"> NOT PAID
+                        </label>
+                        <label id="paid" class="btn btn-outline-warning">
+                          <input type="radio" name="payment" @if(old('payment',$item->payment) == true) checked @endif autocomplete="off" value="1"> PAID
+                        </label>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div class="modal-footer">
                   <a href="{{ route('room.deleteRenter', $item->id) }}">
-                    <button type="button" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-danger">Delete Renter</button>
                   </a>
-                  <button type="submit" data-id="{{$item->id}}" class="btn btn-primary">Save changes</button>
+                  @if ($item->is_bond)
+                  <button type="submit" name="action" value="extend" data-id="{{$item->id}}" class="btn btn-secondary">Extend Rent Date</button>
+                  <button type="submit" name="action" value="edit" data-id="{{$item->id}}" class="btn btn-primary">Save Changes</button>
+                  @else
+                  <button type="submit" name="action" value="add" data-id="{{$item->id}}" class="btn btn-primary">Save New Renter</button>
+                  @endif
                 </div>
               </div>
             </div>
